@@ -1,13 +1,21 @@
 import React from 'react';
 
-const WishList = ({ wishList }) => {
+const WishList = ({ wishList, sortingType }) => {   // ✅ added sortingType prop
+
+  let fltredLst = wishList;
+  if (sortingType == 'pages') {
+    fltredLst = [...wishList].sort((a, b) => a.totalPages - b.totalPages);
+  } else if (sortingType == 'rating') {
+    fltredLst = [...wishList].sort((a, b) => a.rating - b.rating);
+  }
+
   return (
     <div>
-      {wishList.length === 0 ? (
+      {fltredLst.length === 0 ? (                                // ✅ fltredLst
         <p className='text-center text-gray-500'>No books in your wishlist yet.</p>
       ) : (
         <div className='flex flex-col gap-5 items-center'>
-          {wishList.map((book) => (
+          {fltredLst.map((book) => (                             // ✅ fltredLst
             <div key={book.bookId} className='card bg-base-100 shadow-md p-4 flex flex-row gap-4 w-3/4 mx-auto'>
               <img src={book.image} alt={book.bookName} className='h-[120px] w-[80px] object-cover rounded-lg' />
               <div className='space-y-1'>
